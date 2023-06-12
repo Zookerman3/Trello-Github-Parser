@@ -1,0 +1,21 @@
+{
+  "name": "trello-github-parser",
+  "version": "1.0.0",
+  "description": "An application that is used to gather commit data and automatically post it to a Trello board when the user pushes commits.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.1.4",
+    "octokit": "^2.0.19"
+  },
+  "devDependencies": {
+    "smee-client": "^1.2.3"
+  }
+}
