@@ -20,38 +20,6 @@ const app = new App({
     },
 });
 
-const messageForNewPRs = "We have a new collection of commits from this repo!";
-
-// async function handlePushEvent({ octokit, payload }) {
-//     console.log(
-//         `Received commits from project request event for #${payload.pull_request.number}`
-//     );
-
-//     try {
-// await octokit.request(
-//     "POST /repos/{owner}/{repo}/issues/{issue_number}/comments",
-//     {
-//         owner: payload.repository.owner.login,
-//         repo: payload.repository.name,
-//         issue_number: payload.pull_request.number,
-//         body: messageForNewPRs,
-//         headers: {
-//             "x-github-api-version": "2022-11-28",
-//         },
-//     }
-// await octokit.request(
-//     "GET /repos/{owner}/{repo}/commits/{ref}",
-//     {
-//         owner: payload.repository.owner.login,
-//         repo: payload.repository.name,
-//          ref: payload.repository.sha,
-//         issue_number: payload.pull_request.number,
-//         body: messageForNewCommit,
-//         headers: {
-//             "x-github-api-version": "2022-11-28",
-//         },
-//     }
-
 async function handlePushEvent({ octokit, payload }) {
     try {
         const { commit } = payload; // Destructure the necessary properties from the payload object
