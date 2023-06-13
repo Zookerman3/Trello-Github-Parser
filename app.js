@@ -46,6 +46,10 @@ async function handlePushEvent({ octokit, payload }) {
             );
 
             // Process the commit details
+            const commitMessage = commitDetails.data.commit.message;
+            const committer = commitDetails.data.commit.committer;
+            console.log("Committer:", committer);
+            console.log("Commit message:", commitMessage);
             console.log("Commit details:", commitDetails);
         }
     } catch (error) {
