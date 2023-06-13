@@ -53,33 +53,42 @@ const messageForNewPRs = "We have a new collection of commits from this repo!";
 //     }
 
 async function handlePushEvent({ octokit, payload }) {
-    // const { commits, repository } = payload;
-
     try {
-        const latestCommitSHA = payload[0].sha; // Access the SHA of the latest commit
-        console.log(latestCommitSHA);
-        const commitComments = await octokit.request(
+        const { commit } = payload; // Destructure the necessary properties from the payload object
+
+        // Process the commits
+        const commitSHA = commit.id; // Access the SHA of each commit
+        console.log("Commit SHA:", commitSHA);
+
+        // Make additional requests or process the commit as needed
+        const commitDetails = await octokit.request(
             "GET /repos/{owner}/{repo}/commits/{ref}",
             {
                 owner: payload.repository.owner.login,
                 repo: payload.repository.name,
-                ref: payload.repository.latestCommitSHA,
+                ref: commitSHA,
                 headers: {
                     "x-github-api-version": "2022-11-28",
+                    // Accept: "application/vnd.github+json",
                 },
             }
         );
 
-        // Process the commit comments
-        console.log(commitComments);
+        // Process the commit details
+        console.log("Commit details:", commitDetails);
     } catch (error) {
         // Error handling
-        console.error(
-            `Error! Status: ${error.response.status}. Message: ${error.response.data.message}`
-        );
-        console.error(error);
+        if (error.response && error.response.status) {
+            console.error(
+                `Error! Status: ${error.response.status}. Message: ${error.response.data.message}`
+            );
+        } else {
+            console.error("An error occurred:", error);
+        }
     }
 }
+
+
 app.webhooks.on("push", handlePushEvent);
 // app.webhooks.on("pull_request.opened", handlePullRequestOpened);
 
