@@ -26,7 +26,7 @@ async function handlePushEvent({ octokit, payload }) {
         console.log("After:", after);
         console.log("Before:", before);
 
-        // Process the commits
+        
         for (const commit of commits) {
             const commitSHA = commit.id; // Access the SHA of each commit
             console.log("Commit SHA:", commitSHA);
