@@ -22,28 +22,32 @@ const app = new App({
 
 async function handlePushEvent({ octokit, payload }) {
     try {
-        const { commit } = payload; // Destructure the necessary properties from the payload object
+        const { after, before, commits } = payload; // Destructure the necessary properties from the payload object
+        console.log("After:", after);
+        console.log("Before:", before);
 
         // Process the commits
-        const commitSHA = commit.id; // Access the SHA of each commit
-        console.log("Commit SHA:", commitSHA);
+        for (const commit of commits) {
+            const commitSHA = commit.id; // Access the SHA of each commit
+            console.log("Commit SHA:", commitSHA);
 
-        // Make additional requests or process the commit as needed
-        const commitDetails = await octokit.request(
-            "GET /repos/{owner}/{repo}/commits/{ref}",
-            {
-                owner: payload.repository.owner.login,
-                repo: payload.repository.name,
-                ref: commitSHA,
-                headers: {
-                    "x-github-api-version": "2022-11-28",
-                    // Accept: "application/vnd.github+json",
-                },
-            }
-        );
+            // Make additional requests or process the commit as needed
+            const commitDetails = await octokit.request(
+                "GET /repos/{owner}/{repo}/commits/{ref}",
+                {
+                    owner: payload.repository.owner.login,
+                    repo: payload.repository.name,
+                    ref: commitSHA,
+                    headers: {
+                        "x-github-api-version": "2022-11-28",
+                        Accept: "application/vnd.github+json",
+                    },
+                }
+            );
 
-        // Process the commit details
-        console.log("Commit details:", commitDetails);
+            // Process the commit details
+            console.log("Commit details:", commitDetails);
+        }
     } catch (error) {
         // Error handling
         if (error.response && error.response.status) {
