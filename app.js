@@ -76,14 +76,13 @@ app.webhooks.onError((error) => {
     }
 });
 
-const port = 3000;
-const host = "localhost";
+const port = process.env.PORT || 3000;
+const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
 const path = "/api/webhook";
-const localWebhookUrl = `http://${host}:${port}${path}`;
 
 const middleware = createNodeMiddleware(app.webhooks, { path });
 
-http.createServer(middleware).listen(port, () => {
+http.createServer(middleware).listen(process.env.port, () => {
     console.log(`Server is listening for events at: ${localWebhookUrl}`);
     console.log("Press Ctrl + C to quit.");
 });
